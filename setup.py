@@ -14,7 +14,7 @@ with open('LICENSE') as file:
     license_text = file.read()
 
 setup(
-    name='aic',
+    name='avery-image-compiler',
     version=VERSION,
     author='Lorrx',
     author_email='',
@@ -23,6 +23,9 @@ setup(
     long_description=long_description,
     url='https://github.com/lorrx/avery-image-compiler',
     packages=find_packages(),
+    entry_points={
+        "console_scripts": ['aic = aic.main:main']
+    },
     install_requires=requirements,
     license=license_text,
     classifiers=[
