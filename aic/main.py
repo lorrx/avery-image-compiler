@@ -34,10 +34,18 @@ from generator.document import Document
     default='./output.pdf',
     help='Path of the generated output PDF file.'
 )
-def main(input_file: click.File, pages: int, label_type: int, output_file: click.File):
+@click.option(
+    '--format',
+    '-f',
+    type=str,
+    default='a4',
+    help='The paper format that is used by the Avery label article. [a4 | a5]'
+)
+def main(input_file: click.File, pages: int, label_type: int, output_file: click.File, format: str):
     pdf = Document()
     pdf.pages = pages
     pdf.label_type = label_type
+    pdf.format = format
     pdf.input_file = input_file
     pdf.output_file = output_file
     pdf.build()

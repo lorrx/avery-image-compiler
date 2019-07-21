@@ -4,6 +4,7 @@ Document module to prepare Avery labels and positioning.
 import click
 from fpdf import FPDF
 from labels.label import Label
+from generator.paper import Paper, PaperFormat
 from tqdm import tqdm
 
 
@@ -15,6 +16,7 @@ class Document(FPDF):
     __pages: int
     __input_file: click.File
     __output_file: click.File
+    __paper_format: PaperFormat
 
     def __init__(self):
         super().__init__()
@@ -34,6 +36,17 @@ class Document(FPDF):
     @pages.setter
     def pages(self, value: int):
         self.__pages = value
+
+    @property
+    def format(self) -> PaperFormat:
+        return self.__paper_format
+
+    @format.setter
+    def format(self, value: str):
+        if value.upper() in PaperFormat.__members__:
+            self.__paper_format = PaperFormat[value.upper()]
+        else:
+            raise TypeError("The given paper type is not valid.")
 
     @property
     def input_file(self) -> click.File:
