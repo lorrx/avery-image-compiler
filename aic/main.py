@@ -2,6 +2,7 @@
 Main function of the Avery Image Compiler commandline tool.
 """
 import click
+from generator.document import Document
 
 
 @click.command()
@@ -13,7 +14,7 @@ import click
     help='Path of the image to print as a Avery label. Improve, that the dimensions are correctly set.'
 )
 @click.option(
-    '--type',
+    '--label-type',
     '-t',
     type=int,
     required=True,
@@ -33,8 +34,13 @@ import click
     default='./output.pdf',
     help='Path of the generated output PDF file.'
 )
-def main(input_file: click.File, pages: int, type: int, output_file: click.File):
-    print(input_file)
+def main(input_file: click.File, pages: int, label_type: int, output_file: click.File):
+    pdf = Document()
+    pdf.pages = pages
+    pdf.label_type = label_type
+    pdf.input_file = input_file
+    pdf.output_file = output_file
+    pdf.build()
 
 
 if __name__ == '__main__':
