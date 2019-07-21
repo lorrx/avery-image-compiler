@@ -1,4 +1,5 @@
 # Changelog
 
 ## 0.0.1 
-* Change
+* Set up project defaults
+* Set up setup properties
