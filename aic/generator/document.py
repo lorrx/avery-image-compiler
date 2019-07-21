@@ -4,6 +4,7 @@ Document module to prepare Avery labels and positioning.
 import click
 from fpdf import FPDF
 from labels.label import Label
+from tqdm import tqdm
 
 
 class Document(FPDF):
@@ -32,7 +33,7 @@ class Document(FPDF):
 
     @pages.setter
     def pages(self, value: int):
-        self.pages = value
+        self.__pages = value
 
     @property
     def input_file(self) -> click.File:
@@ -48,4 +49,9 @@ class Document(FPDF):
 
     @output_file.setter
     def output_file(self, value: click.File):
-        self.output_file = value
+        self.__output_file = value
+
+    def build(self):
+        for page in tqdm(range(self.pages)):
+            pass
+
