@@ -14,8 +14,8 @@ class Document:
     """
     __label_type: Label
     __pages: int
-    __input_file: click.File
-    __output_file: click.File
+    __input_file: click.Path
+    __output_file: click.Path
     __paper: Paper
 
     def __init__(self):
@@ -24,8 +24,9 @@ class Document:
     @property
     def label_type(self) -> Label:
         """
+        Avery Zweckform label type.
 
-        :return:
+        :return: Label
         """
         return self.__label_type
 
@@ -36,8 +37,9 @@ class Document:
     @property
     def pages(self) -> int:
         """
+        Number of pages to generate.
 
-        :return:
+        :return: int
         """
         return self.__pages
 
@@ -47,6 +49,11 @@ class Document:
 
     @property
     def paper(self) -> Paper:
+        """
+        Type of paper to generate.
+
+        :return: Paper
+        """
         return self.__paper
 
     @paper.setter
@@ -57,35 +64,39 @@ class Document:
             raise TypeError("The given paper type is not valid.")
 
     @property
-    def input_file(self) -> click.File:
+    def input_file(self) -> click.Path:
         """
+        Path of the input image to print.
 
-        :return:
+        :return: click.Path
         """
         return self.__input_file
 
     @input_file.setter
-    def input_file(self, value: click.File):
+    def input_file(self, value: click.Path):
         self.__input_file = value
 
     @property
-    def output_file(self) -> click.File:
+    def output_file(self) -> click.Path:
         """
+        Path of the output PDF file.
 
-        :return:
+        :return: click.Path
         """
         return self.__output_file
 
     @output_file.setter
-    def output_file(self, value: click.File):
+    def output_file(self, value: click.Path):
         self.__output_file = value
 
     def build(self):
         """
-
+        Build function with progress bar.
         """
-        pdf = FPDF(orientation='P', unit='mm', format=self.paper.format.value)
+        pdf = FPDF(orientation='L', unit='mm', format=self.paper.format.value)
+        pdf.set_xy(0, 0)
+        pdf.set_font('Arial', '', 14)
         for page in tqdm(range(self.pages)):
             pdf.add_page()
-
+            pdf.write(5, str(page + 1))
         pdf.output(str(self.output_file), 'F')
