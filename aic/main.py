@@ -11,7 +11,8 @@ from generator.document import Document
     '-i',
     type=click.File('r'),
     required=True,
-    help='Path of the image to print as a Avery label. Improve, that the dimensions are correctly set.'
+    help='Path of the image to print as a Avery label. Improve, that the dimensions are correctly '
+         'set.'
 )
 @click.option(
     '--label-type',
