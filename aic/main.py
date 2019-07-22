@@ -9,7 +9,7 @@ from generator.document import Document
 @click.option(
     '--input-file',
     '-i',
-    type=click.File('r'),
+    type=click.Path(exists=True),
     required=True,
     help='Path of the image to print as a Avery label. Improve, that the dimensions are correctly '
          'set.'
@@ -31,22 +31,27 @@ from generator.document import Document
 @click.option(
     '--output-file',
     '-o',
-    type=click.File('w'),
+    type=click.Path(exists=False),
     default='./output.pdf',
     help='Path of the generated output PDF file.'
 )
 @click.option(
-    '--format',
+    '--page_format',
     '-f',
     type=str,
     default='a4',
     help='The paper format that is used by the Avery label article. [a4 | a5]'
 )
-def main(input_file: click.File, pages: int, label_type: int, output_file: click.File, format: str):
+def main(input_file: click.Path, pages: int, label_type: int, output_file: click.Path,
+         page_format: str):
+    """
+    The Avery Image Compiler (AIC) allows that images can be prepared as Avery-Zweckform labels
+    without loss of quality. \n
+    """
     pdf = Document()
     pdf.pages = pages
     pdf.label_type = label_type
-    pdf.format = format
+    pdf.paper = page_format
     pdf.input_file = input_file
     pdf.output_file = output_file
     pdf.build()

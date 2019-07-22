@@ -10,10 +10,25 @@ class PaperFormat(Enum):
 
 
 class Paper:
+    """
+
+    """
     __format: PaperFormat
+    __dimensions: dict = {
+        'a4': [],
+        'a5': []
+    }
+
+    def __init__(self, paper_format: PaperFormat = None):
+        if paper_format:
+            self.format = paper_format
 
     @property
     def format(self) -> PaperFormat:
+        """
+
+        :return:
+        """
         return self.__format
 
     @format.setter
