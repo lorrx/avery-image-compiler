@@ -32,7 +32,7 @@ class Document:
 
     @label_type.setter
     def label_type(self, value: int):
-        self.__label_type = Label(value)
+        self.__label_type = Label.load_type(str(value))
 
     @property
     def pages(self) -> int:
@@ -98,5 +98,5 @@ class Document:
         pdf.set_font('Arial', '', 14)
         for page in tqdm(range(self.pages)):
             pdf.add_page()
-            pdf.write(5, str(page + 1))
+            pdf.image(name=self.input_file, x=0, y=0, w=42.3, h=97, type='JPG')
         pdf.output(str(self.output_file), 'F')
