@@ -8,7 +8,7 @@ from generator.paper import Paper, PaperFormat
 from tqdm import tqdm
 
 
-class Document(FPDF):
+class Document:
     """
     Document class definition.
     """
@@ -16,13 +16,17 @@ class Document(FPDF):
     __pages: int
     __input_file: click.File
     __output_file: click.File
-    __paper_format: PaperFormat
+    __paper: Paper
 
     def __init__(self):
         super().__init__()
 
     @property
     def label_type(self) -> Label:
+        """
+
+        :return:
+        """
         return self.__label_type
 
     @label_type.setter
@@ -31,6 +35,10 @@ class Document(FPDF):
 
     @property
     def pages(self) -> int:
+        """
+
+        :return:
+        """
         return self.__pages
 
     @pages.setter
@@ -38,18 +46,22 @@ class Document(FPDF):
         self.__pages = value
 
     @property
-    def format(self) -> PaperFormat:
-        return self.__paper_format
+    def paper(self) -> Paper:
+        return self.__paper
 
-    @format.setter
-    def format(self, value: str):
+    @paper.setter
+    def paper(self, value: str):
         if value.upper() in PaperFormat.__members__:
-            self.__paper_format = PaperFormat[value.upper()]
+            self.__paper = Paper(PaperFormat[value.upper()])
         else:
             raise TypeError("The given paper type is not valid.")
 
     @property
     def input_file(self) -> click.File:
+        """
+
+        :return:
+        """
         return self.__input_file
 
     @input_file.setter
@@ -58,6 +70,10 @@ class Document(FPDF):
 
     @property
     def output_file(self) -> click.File:
+        """
+
+        :return:
+        """
         return self.__output_file
 
     @output_file.setter
@@ -65,6 +81,11 @@ class Document(FPDF):
         self.__output_file = value
 
     def build(self):
-        for page in tqdm(range(self.pages)):
-            pass
+        """
 
+        """
+        pdf = FPDF(orientation='P', unit='mm', format=self.paper.format.value)
+        for page in tqdm(range(self.pages)):
+            pdf.add_page()
+
+        pdf.output(str(self.output_file), 'F')
