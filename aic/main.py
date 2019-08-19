@@ -48,6 +48,11 @@ def main(input_file: click.Path, pages: int, label_type: int, output_file: click
     The Avery Image Compiler (AIC) allows that images can be prepared as Avery-Zweckform labels
     without loss of quality. \n
     """
+    click.echo('Welcome to the Avery Image Compiler\n')
+    click.echo('Input file: {}'.format(input_file))
+    click.echo('Output file: {}'.format(output_file))
+    click.echo('Number of PDF pages: {}'.format(pages))
+    click.echo('Avery Label: {}\n'.format(label_type))
     pdf = Document()
     pdf.pages = pages
     pdf.label_type = label_type
