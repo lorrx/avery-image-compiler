@@ -37,3 +37,11 @@ class Paper:
     @format.setter
     def format(self, value: PaperFormat):
         self.__format = value
+
+    @property
+    def page_width(self) -> int:
+        return self.__dimensions[self.format.value][0]
+
+    @property
+    def page_height(self) -> int:
+        return self.__dimensions[self.format.value][1]

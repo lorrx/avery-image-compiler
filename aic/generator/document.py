@@ -95,8 +95,29 @@ class Document:
         """
         pdf = FPDF(orientation='L', unit='mm', format=self.paper.format.value)
         pdf.set_xy(0, 0)
-        pdf.set_font('Arial', '', 14)
+        print('Rows: {}\nColumns: {}\nOffset h: {}\nOffset w: {}\nOffset between labels: {}\n'.format(
+            str(self.label_type.rows),
+            str(self.label_type.columns),
+            str(self.label_type.offset_height),
+            str(self.label_type.offset_width),
+            str(self.label_type.offset_between_label)
+        ))
         for page in tqdm(range(self.pages)):
             pdf.add_page()
-            pdf.image(name=self.input_file, x=0, y=0, w=42.3, h=97, type='JPG')
+            x_offset: float = 0
+            y_offset: float = 0
+
+            for label_count in range(self.label_type.rows * self.label_type.columns):
+                pdf.image(
+                    name=self.input_file,
+                    x=self.label_type.offset_height + x_offset,
+                    y=self.label_type.offset_width + y_offset,
+                    w=self.label_type.width,
+                    h=self.label_type.height,
+                    type='PNG')
+                if label_count == self.label_type.rows - 1:
+                    x_offset = 0
+                    y_offset += self.label_type.height + self.label_type.offset_between_label
+                else:
+                    x_offset += self.label_type.width
         pdf.output(str(self.output_file), 'F')

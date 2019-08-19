@@ -11,8 +11,12 @@ class Avery6123(Label):
     """
     Avery 6123 class definition.
     """
-    _label_dimensions: list = [42.3, 97]
+    _label_dimensions: list = [42.3, 97.0]
 
     def __init__(self):
         super().__init__()
         self.format = PaperFormat.A4
+
+    @property
+    def rows(self) -> int:
+        return 6
